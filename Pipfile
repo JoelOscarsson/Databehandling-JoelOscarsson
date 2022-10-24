@@ -10,6 +10,7 @@ matplotlib = "*"
 black = "*"
 ipykernel = "*"
 seaborn = "*"
+openpyxl = "*"
 
 [dev-packages]
 
