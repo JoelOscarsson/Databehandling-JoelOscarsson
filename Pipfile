@@ -11,6 +11,9 @@ black = "*"
 ipykernel = "*"
 seaborn = "*"
 openpyxl = "*"
+plotly = "*"
+plotly-express = "*"
+nbformat = "*"
 
 [dev-packages]
 
