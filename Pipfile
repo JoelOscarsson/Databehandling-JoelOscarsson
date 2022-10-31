@@ -14,6 +14,10 @@ openpyxl = "*"
 plotly = "*"
 plotly-express = "*"
 nbformat = "*"
+requests = "*"
+html5lib = "*"
+bs4 = "*"
+lxml = "*"
 
 [dev-packages]
 
