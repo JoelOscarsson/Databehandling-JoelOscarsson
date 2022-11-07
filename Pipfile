@@ -18,6 +18,7 @@ html5lib = "*"
 bs4 = "*"
 lxml = "*"
 python-dotenv = "*"
+matplotlib = "*"
 
 [dev-packages]
 
