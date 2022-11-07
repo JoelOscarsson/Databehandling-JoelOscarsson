@@ -18,6 +18,7 @@ requests = "*"
 html5lib = "*"
 bs4 = "*"
 lxml = "*"
+python-dotenv = "*"
 
 [dev-packages]
 
