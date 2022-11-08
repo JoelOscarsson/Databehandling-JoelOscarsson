@@ -19,6 +19,8 @@ bs4 = "*"
 lxml = "*"
 python-dotenv = "*"
 matplotlib = "*"
+dash = "*"
+dash-bootstrap-components = "*"
 
 [dev-packages]
 
