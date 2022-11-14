@@ -1,4 +1,5 @@
 from dash import html, dcc
+import dash_bootstrap_components as dbc
 
 
 class Layout:
@@ -22,15 +23,27 @@ class Layout:
         }
 
     def layout(self):
-        return html.Main(
+        return dbc.Container(
             [
-                html.H1("Techy stocks viewer"),
-                html.P("Choose a stock"),
-                dcc.Dropdown(
+                dbc.Card(
+                    dbc.CardBody(html.H1("Techy stocks viewer")), className="mt-3"
+                ),  # In this card i want my techy stocks viewer
+
+                dbc.Row([
+                    dbc.Col(html.P("Choose a stock")),
+
+
+                    dbc.Col(dcc.Dropdown(
                     id="stockpicker-dropdown",
                     options=self._stock_options_dropdown,
                     value="AAPL",
-                ),
+                )),
+                    dbc.Col(),
+                ]),
+
+
+                
+                
                 html.P(id="highest-value"),
                 html.P(id="lowest-value"),
                 dcc.RadioItems(
