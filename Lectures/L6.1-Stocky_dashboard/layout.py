@@ -31,16 +31,21 @@ class Layout:
                 dbc.Row(
                     className="mt-4",
                     children=[
-                        dbc.Col(html.P("Choose a stock"), className="mt-2"),
-
+                        dbc.Col(
+                            html.P("Choose a stock"),
+                            className="mt-2",
+                            lg="4",
+                            xl={"offset": 2, "size": 1},
+                        ),
                         dbc.Col(
                             dcc.Dropdown(
                                 id="stockpicker-dropdown",
                                 options=self._stock_options_dropdown,
                                 value="AAPL",
-                            ), lg = "4",
+                            ),
+                            lg="4",
+                            xl="3",
                         ),
-
                         dbc.Col(
                             dbc.Card(
                                 dcc.RadioItems(
@@ -49,22 +54,31 @@ class Layout:
                                     options=self._ohlc_options,
                                     value="close",
                                 )
-                            )
+                            ),
+                            lg="4",
+                            xl="3",  # lg står för large screen
                         ),
                     ],
                 ),
+                dbc.Row(
+                    [
+                        dbc.Col(
+                            dcc.Graph(id="stock-graph"),
+                            dcc.Slider(
+                                id="time-slider",
+                                min=0,
+                                max=6,
+                                marks=self._slider_marks,
+                                value=2,
+                                step=None,
+                            ),
+                        ),
+                        dbc.Col(),
+                    ]
+                ),
                 html.P(id="highest-value"),
                 html.P(id="lowest-value"),
-                dcc.Graph(id="stock-graph"),
-                dcc.Slider(
-                    id="time-slider",
-                    min=0,
-                    max=6,
-                    marks=self._slider_marks,
-                    value=2,
-                    step=None,
-                ),
                 # storing intermediate value on clients browser in order to share between several callbacks
                 dcc.Store(id="filtered-df"),
-            ]
+            ],  # fluid=True # Om jag sätter denna som true så åker grafen blocket ut i sidorna. Default är 1 enhet på varje sida fri 10 i mitten
         )
