@@ -1,68 +1,34 @@
 import dash
-import dash_bootstrap_components as dbc
 import os
 from load_data import StockData
-from dash import html, dcc  # dcc - dash core components
 from dash.dependencies import Output, Input
 import plotly_express as px
 from time_filtering import filter_time
 import pandas as pd
+from layout import Layout
+import dash_bootstrap_components as dbc
 
 directory_path = os.path.dirname(__file__)
 path = os.path.join(directory_path, "stocksdata")
 
-print(path)
 
 stockdata_object = StockData(path)
 
-# pick one stock
-# print(stockdata_object.stock_dataframe("AAPL"))
 
 symbol_dict = {"AAPL": "Apple", "NVDA": "Nvidia", "TSLA": "Tesla", "IBM": "IBM"}
 
 df_dict = {symbol: stockdata_object.stock_dataframe(symbol) for symbol in symbol_dict}
 
-stock_options_dropdown = [
-    {"label": name, "value": symbol} for symbol, name in symbol_dict.items()
-]
-
-ohlc_options = [
-    {"label": option, "value": option} for option in ("open", "high", "low", "close")
-]
-
-slider_marks = {
-    i: mark
-    for i, mark in enumerate(
-        ["1 day", "1 week", "1 month", "3 months", "1 year", "5 year", "Max"]
-    )
-}
-
-print(df_dict.keys())
-# print(df_dict["TSLA"][0])
 
 # create a Dash App
-app = dash.Dash(__name__)
-
-app.layout = html.Main(
-    [
-        html.H1("Techy stocks viewer"),
-        html.P("Choose a stock"),
-        dcc.Dropdown(
-            id="stockpicker-dropdown",
-            options=stock_options_dropdown,
-            value="AAPL",
-        ),
-        html.P(id="highest-value"),
-        html.P(id="lowest-value"),
-        dcc.RadioItems(id="ohlc-radio", options=ohlc_options, value="close"),
-        dcc.Graph(id="stock-graph"),
-        dcc.Slider(
-            id="time-slider", min=0, max=6, marks=slider_marks, value=2, step=None
-        ),
-        # storing intermediate value on clients browser in order to share between several callbacks
-        dcc.Store(id="filtered-df"),
-    ]
+app = dash.Dash(
+    __name__,
+    external_stylesheets=[dbc.themes.VAPOR],
+    # makes possible for responsivity
+    meta_tags=[dict(name="viewports", content="width=device-width, initial-scale=1.0")],
 )
+
+app.layout = Layout(symbol_dict).layout()
 
 
 @app.callback(
@@ -92,7 +58,7 @@ def highest_lowest_value_update(json_df, ohlc):
     dff = pd.read_json(json_df)
     highest_value = dff[ohlc].max()
     lowest_value = dff[ohlc].min()
-    return highest_value, lowest_value
+    return f"${highest_value:.2f}", f"${lowest_value:.2f}"
 
 
 @app.callback(
