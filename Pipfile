@@ -21,6 +21,7 @@ python-dotenv = "*"
 matplotlib = "*"
 dash = "*"
 dash-bootstrap-components = "*"
+numexpr = "*"
 
 [dev-packages]
 
